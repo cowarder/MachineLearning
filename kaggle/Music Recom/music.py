@@ -250,6 +250,15 @@ train['song_length']=train['song_length'].apply(smaller_mean)
 test['song_length']=test['song_length'].apply(smaller_mean)
 
 
+#歌手和作曲者相同
+train['artist_composer'] = np.asarray(train['artist_name']) == np.asarray(train['composer'])
+test['artist_composer'] = np.asarray(test['artist_name']) == np.asarray(test['composer'])
+
+
+#歌手、作词者、作曲者皆相同
+train['artist_composer_lyricist'] = (train['artist_name']==train['composer'])&(train['artist_name']==train['lyricist'])&(train['composer'] == train['lyricist'])
+test['artist_composer_lyricist'] = (test['artist_name']==test['composer']) & (test['artist_name']==test['lyricist'])&(test['composer']==test['lyricist'])
+
 train['city']=train['city'].apply(str)
 train['registered_via']=train['registered_via'].apply(str)
 train['language']=train['language'].apply(str)
@@ -282,19 +291,17 @@ lgb_val = lgb.Dataset(x_val, y_val)
 
 params = {
         'objective': 'binary',
-        'metric': 'binary_logloss',
         'boosting': 'gbdt',
-        'learning_rate': 0.3 ,
+        'learning_rate': 0.2 ,
         'verbose': 0,
-        'num_leaves': 108,
+        'num_leaves': 100,
         'bagging_fraction': 0.95,
         'bagging_freq': 1,
         'bagging_seed': 1,
         'feature_fraction': 0.9,
         'feature_fraction_seed': 1,
         'max_bin': 256,
-        'max_depth': 10,
-        'num_rounds': 200,
+        'num_rounds': 100,
         'metric' : 'auc'
     }
 	

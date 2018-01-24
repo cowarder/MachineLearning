@@ -16,13 +16,17 @@ from sklearn.tree import DecisionTreeRegressor,ExtraTreeRegressor
 from sklearn.ensemble import AdaBoostRegressor,ExtraTreesRegressor,GradientBoostingRegressor,RandomForestRegressor
 from xgboost import XGBRegressor
 from scipy.stats import skew
-	
+
+
 def calScore(pre,label):
 	if len(pre)==len(label):
 		score=np.sqrt(sum(pow(x-y,2) for x,y in zip(pre,label))/len(label))
 		print score
 	else:
 		print "Their length are different"
+
+
+
 def loadData():
 	train=pd.read_csv('train.csv')
 	test=pd.read_csv('test.csv')
